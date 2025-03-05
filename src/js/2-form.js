@@ -2,8 +2,8 @@ const formData = {email: "", message: ""};
 
 const form = document.querySelector(".feedback-form");
 
-document.addEventListener("contentLoader", () => {
-    const savedData = JSON.parse(localStorage.getItem("feedback-msg"));
+document.addEventListener("DOMContentLoaded", () => {
+    const savedData = JSON.parse(localStorage.getItem("feedback-form-state"));
     if (savedData) {
         formData.email = savedData.email;
         formData.message = savedData.message;
@@ -18,13 +18,16 @@ form.addEventListener("input", (event) => {
     } else if (name === "message") {
         formData.message = value.trim();
     }
-    localStorage.setItem("feedback-msg", JSON.stringify(formData));
+    localStorage.setItem("feedback-form-state", JSON.stringify(formData));
 });
  
 form.addEventListener("submit", (event) => { 
-    event.preventDefault(); 
+    if (formData.email === "" || formData.message === "") {
+    alert("Будь ласка, заповніть усі поля");
+    return;
+    }
     console.log(formData); 
     form.reset(); 
-    localStorage.removeItem("feedback-msg");
+    localStorage.removeItem("feedback-form-state");
   
 });
